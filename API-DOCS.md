@@ -4,7 +4,7 @@
 
 ### Functions
 
-- **`load_config(fp: str) -> dict`**
+- **`load_config(fn: str, dir=os.path.join(os.getcwd(), "save")) -> None`**
   - Returns the configuration file based on the provided filepath.
 
 - **`start() -> None`**
@@ -21,6 +21,9 @@
 
 - **`get_cmds() -> list`**
   - Retrieves a list of all command names.
+
+- **`load_scripts(dir) -> None`**
+  - Loads all scripts from save.
 
 ### Exceptions/Errors
 
@@ -96,3 +99,39 @@ There are two approaches to crafting a command: assigning a function to the comm
     def main():
         Command("hello", lambda: print("Hello, World!"))
     ```
+
+    ### Arguments Taken Into Your Command
+
+    The command system allows you to take the arguments from the command.
+
+    1. **Assign Your Command to a Variable**
+
+      ```python
+      # Importing the Main File
+      from __main__ import *
+
+      # Define The Command Action
+      def say(args):
+        print(args)
+
+      # Definining the main Function
+      def main():
+        command = Command("say", lambda:say)
+      ```
+
+    2. **Access The Arguments from the Command Object**
+
+    ```python
+      # Importing the Main File
+      from __main__ import *
+
+      # Define The Command Action
+      def say(args):
+        print(args)
+
+      # Definining the main Function
+      def main():
+        command = Command("say", lambda:say(command.args))
+      ```
+
+      Now with this, you can use command arguments to make more advanced commands.

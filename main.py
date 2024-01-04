@@ -39,6 +39,7 @@ class InvalidCommandError(Exception):
 class Command:
     CMDS: list = []
     def __init__(self, name: str, action: callable) -> None:
+        if cmd_exists(name): return
         self.name = name
         self.onCommand = action
         self.args = ""
@@ -110,7 +111,6 @@ if main:
     Command("cd..", lambda:os.chdir(".."))
     Command("exit", sys.exit)
     Command("cmds", lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
-    sayc = Command("say", lambda:print(sayc.args))
     cdc = Command("cd", lambda:os.chdir(cdc.args))
     start()
 

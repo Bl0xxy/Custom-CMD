@@ -100,7 +100,7 @@ def reload():
 
 ### MAIN ###
 if main:
-    Command("start", start),
+    Command("ccmdstart", start),
     Command("cd..", lambda:os.chdir(".."))
     Command("exit", sys.exit)
     Command("cmds", lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))

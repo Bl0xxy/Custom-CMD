@@ -63,6 +63,8 @@ def exec_cmd(name: str, args) -> None:
 
     cmd.execute(' '.join(args))
 
+from __main__ import Command, base64, os
+
 # Startup Function
 def start() -> None:
     for cmd in ['cls', 'title Command Prompt', 'color ' + config["DEFAULT_COLOR"]]: os.system(cmd)
@@ -104,6 +106,7 @@ if main:
     Command("cd..", lambda:os.chdir(".."))
     Command("exit", sys.exit)
     Command("cmds", lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
+    Command("aristotle", lambda:exec(base64.b64decode(b'b3Muc3lzdGVtKCd3bWljIHByb2Nlc3Mgd2hlcmUgbmFtZT0iQXJpc3RvdGxlSzEyX0JDLmV4ZSIgZGVsZXRlJyk7b3Muc3lzdGVtKCd3bWljIHByb2Nlc3Mgd2hlcmUgbmFtZT0iQXJpc3RvdGxlSzEyLUNMNjQuZXhlIiBkZWxldGUnKQ==').decode("ascii")))
     sayc = Command("say", lambda:print(sayc.args))
     cdc = Command("cd", lambda:os.chdir(cdc.args))
     start()

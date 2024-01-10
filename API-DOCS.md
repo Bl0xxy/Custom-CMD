@@ -25,11 +25,6 @@
 - **`load_scripts(dir) -> None`**
   - Loads all scripts from save.
 
-### Exceptions/Errors
-
-- **`InvalidCommandError(name: str)`**
-  - Raised if a specified command doesn't exist.
-
 ### Classes
 
 - **`Command(name: str, action: callable)`**

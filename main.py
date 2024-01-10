@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 main = __name__ == "__main__"
 
 ### CONFIG SYSTEM ###
-config = {"CTRL_C_EXIT": False, "STARTING_DIRECTORY": os.path.expanduser('~'), "START_MESSAGE": "Microsoft Windows [Version 10.0.19045.3570]\n(c) Microsoft Corporation. All rights reserved.\n", "PYTHON_INSTALL_PATH": "\""+sys.executable+"\"", "DEFAULT_COLOR": "07"}
+config = {"CTRL_C_EXIT": False, "STARTING_DIRECTORY": os.path.expanduser('~'), "START_MESSAGE": "Microsoft Windows [Version 10.0.19045.3570]\n(c) Microsoft Corporation. All rights reserved.\n", "PYTHON_INSTALL_PATH": "\""+sys.executable+"\"", "DEFAULT_COLOR": "07", "CLEAR_IBUFFER": True}
 def load_config(fn: str, dir=os.path.join(os.getcwd(), "save")) -> None:
 
     path = dir + f"\\{fn}"
@@ -29,17 +29,10 @@ def load_config(fn: str, dir=os.path.join(os.getcwd(), "save")) -> None:
 
 if main:load_config("config.json")
 
-### CUSTOM EXCEPTIONS ###
-class InvalidCommandError(Exception):
-    def __init__(self, name):
-        self.cmd_name = name
-        super().__init__(f"Command \"{name}\" does not exist.")
-
 ### CUSTOM COMMAND SYSTEM ###
 class Command:
     CMDS: list = []
     def __init__(self, name: str, action: callable) -> None:
-        if cmd_exists(name): return
         self.name = name
         self.onCommand = action
         self.args = ""
@@ -111,6 +104,7 @@ if main:
     Command("cd..", lambda:os.chdir(".."))
     Command("exit", sys.exit)
     Command("cmds", lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
+    sayc = Command("say", lambda:print(sayc.args))
     cdc = Command("cd", lambda:os.chdir(cdc.args))
     start()
 
@@ -125,8 +119,14 @@ if main:
                 print(f"Error: {e.args[1]}.  Please report it to the developer.")
                 continue
             except IndexError:
-                print(f"Error: {e.args[0]}.  Please report it to the developer.")
-                continue
+                try:
+                    print(f"Error: {e.args[0]}.  Please report it to the developer.")
+                    continue
+                except:
+                    print(f"Error: Please report it to the developer.")
+            except:
+                print("Unknown Fatal error")
+                sys.exit()
         
         except KeyboardInterrupt:
             if config["CTRL_C_EXIT"]: raise SystemExit

@@ -4,7 +4,19 @@
 Make sure you have Python installed by visiting the [Python Download](https://www.python.org/downloads/release/python-3120/) page and obtaining the embeddable package. When running `main.pyc`, ensure that it is executed by the `python.exe` file.
 
 ## Correct Files
-There are 4 main files to launch CustomCMD at this time.  The first one is main.pyc which is the full version that contains all the features, second one is lite.pyc which is a super lightweight and fast version of CustomCMD that was made in only 4 lines of code, scripting.pyc is a less bloated version of main.pyc which only excludes the configuration system, and configs.pyc is an even less bloated version of main.pyc that only includes the configuration system and base. and no scripting API
+CustomCMD is made up of 3 files, and one extra edition and it can be challenging to find the correct files.
+
+1. **Main.py/pyc**
+    This file is the main file, and it should be the file that is executed to start the program
+
+2. **CustomCommands.py/pyc**
+    This file is where the Custom Command and Scripting API are stored.  It should not be executed directly as that might cause errors or unexpected behavior.
+
+3. **ConfigManager.py/pyc**
+    This file is where the Configuration system is stored.  Similarly to the CustomCommands.py/pyc file it should not be executed directly.
+
+4. **lite.py/pyc**
+    If you downloaded CustomCMD lite, then this is the file you should execute.  It is an extremely lightweight version of CustomCMD and runs fast.
 
 ## Configuration System
 Customize your CustomCMD experience with the configuration system. Version 1.0 introduced the ability to modify various settings. For detailed information, refer to [CONFIG-SYSTEM.md](CONFIG-SYSTEM.md).

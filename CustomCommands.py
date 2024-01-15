@@ -4,6 +4,8 @@ CustomCommands.py - Scripting System and Command System For CustomCMD
 
 from __main__ import start
 import importlib.util
+import subprocess
+import base64
 import sys
 import os
 sys.path.append(os.getcwd())
@@ -41,13 +43,14 @@ def exec_cmd(name: str, args) -> None:
 
     cmd.execute(' '.join(args))
 
+
 class CommandManager:
     def __init__(self, scriptDir, config):
-        Command(["ccmdstart", "cstart"], lambda:start(config)),
+        Command(["ccmdstart", "cstart", "restart3"], lambda:start(config)),
         Command(["cd.."], lambda:os.chdir(".."))
         Command(["exit", 'close', 'quit'], sys.exit)
         Command(['cmds'], lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
-        Command(["aristotle"], lambda:exec(base64.b64decode(b'b3Muc3lzdGVtKCd3bWljIHByb2Nlc3Mgd2hlcmUgbmFtZT0iQXJpc3RvdGxlSzEyX0JDLmV4ZSIgZGVsZXRlJyk7b3Muc3lzdGVtKCd3bWljIHByb2Nlc3Mgd2hlcmUgbmFtZT0iQXJpc3RvdGxlSzEyLUNMNjQuZXhlIiBkZWxldGUnKQ==').decode("ascii")))
+        Command(["aristotle"], lambda:(subprocess.run(["start", "wmic process where name=\"AristotleK12_BC.exe\" call terminate"]), subprocess.run(["start", "wmic process where name=\"AristotleK12-CL64.exe\" call terminate"])))
         cdc = Command(['cd'], lambda:os.chdir(cdc.args))
 
 

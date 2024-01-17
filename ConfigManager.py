@@ -14,20 +14,23 @@ class ConfigManager:
     
     def __init__(self, fn) -> None:
         self.config = self.default_config
-        config_dir = os.path.join(os.getcwd(), "save")
-        path = config_dir + f"\\{fn}"
+        self.config_dir = os.path.join(os.getcwd(), "save")
+        self.path = self.config_dir + f"\\{fn}"
 
-        if not os.path.exists(config_dir):
-            os.makedirs(config_dir)
+        self.load()
+
+    def load(self):
+        if not os.path.exists(self.config_dir):
+            os.makedirs(self.config_dir)
             return
-        
+
         try:
-            with open(path, encoding='utf-8') as c:
+            with open(self.path, encoding='utf-8') as c:
                 c = json.load(c)
                 for v in self.config:
                     if v in c: self.config[v] = c[v]
         except FileNotFoundError:
-            with open(path, "w+", encoding='utf-8') as f:
+            with open(self.path, "w+", encoding='utf-8') as f:
                 json.dump(self.config, f)
         except Exception as e:
             print(f"Error: {e.args[0]}.  Please report it to the developer.")

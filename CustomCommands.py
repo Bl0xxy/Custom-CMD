@@ -10,13 +10,34 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
+class CommandOverrideError(Exception):
+    def __init__(self, message="Command Cannot Be Overriden"):
+        self.message = message
+
+        super().__init__(self.message)
+
 class Command:
     CMDS: list = []
     def __init__(self, names: list, action: callable) -> None:
         self.names = names
         self.onCommand = action
         self.args = ""
+        
+        if Command.check_taken(self.names):
+            self.names = ["command-" + str(len(Command.CMDS))]
+            raise CommandOverrideError(f"Command name \"{names[0]}\" is taken!  Default command name generated: {self.names[0]}")
+        
         Command.CMDS.append(self)
+
+    def check_taken(names: list):
+        for name in names:
+            for command in Command.CMDS:
+                for command_name in command.names:
+                    if name == command_name:
+                        return True
+
+        return False
+
     def execute(self, args):
         self.args = args
         self.onCommand()
@@ -43,14 +64,14 @@ def exec_cmd(name: str, args) -> None:
 
     cmd.execute(' '.join(args))
 
-
 class CommandManager:
     def __init__(self, scriptDir, config):
-        Command(["ccmdstart", "cstart", "restart3"], lambda:start(config)),
         Command(["cd.."], lambda:os.chdir(".."))
         Command(["exit", 'close', 'quit'], sys.exit)
         Command(['cmds'], lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
-        Command(["aristotle"], lambda:(subprocess.run(["start", "wmic process where name=\"AristotleK12_BC.exe\" call terminate"]), subprocess.run(["start", "wmic process where name=\"AristotleK12-CL64.exe\" call terminate"])))
+        Command(["aristotle"], lambda: ([os.system("wmic process where name=\"AristotleK12" + i + ".exe\" call terminate") for i in ['_BC', '-CL64']]))
+        Command(["reload", 'rl', 'reloadconfig', 'rlconfig', 'reloadcfg', 'rlcfg', 'restart'], lambda: (configManager.load(), start(configManager.config)))
+        pyrunc = Command(["pyrun"], lambda:exec(command.args))
         cdc = Command(['cd'], lambda:os.chdir(cdc.args))
 
 
@@ -72,5 +93,7 @@ class CommandManager:
                     else:
                         continue
                 except Exception as e:
-                    print(f"Error loading {fn}: {e}")
+                    print(f"Error loading {fn}: {e.message}")
                     os.system("pause")
+                except:
+                    print(f"Fatal Error loading {fn}: {e.message}")

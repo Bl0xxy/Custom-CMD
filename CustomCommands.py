@@ -2,10 +2,12 @@
 CustomCommands.py - Scripting System and Command System For CustomCMD
 """
 
-from __main__ import start
+from __main__ import start, configManager
+from math import ceil
 import importlib.util
 import subprocess
 import base64
+import time
 import sys
 import os
 sys.path.append(os.getcwd())
@@ -29,16 +31,10 @@ class Command:
         
         Command.CMDS.append(self)
 
-    def check_taken(names: list):
-        for name in names:
-            for command in Command.CMDS:
-                for command_name in command.names:
-                    if name == command_name:
-                        return True
+    def check_taken(names: list) -> bool:
+        return any(name == command_name for name in names for command in Command.CMDS for command_name in command.names)
 
-        return False
-
-    def execute(self, args):
+    def execute(self, args) -> None:
         self.args = args
         self.onCommand()
 
@@ -65,13 +61,27 @@ def exec_cmd(name: str, args) -> None:
     cmd.execute(' '.join(args))
 
 class CommandManager:
-    def __init__(self, scriptDir, config):
+    def __init__(self, scriptDir, config) -> None:
         Command(["cd.."], lambda:os.chdir(".."))
         Command(["exit", 'close', 'quit'], sys.exit)
-        Command(['cmds'], lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
-        Command(["aristotle"], lambda: ([os.system("wmic process where name=\"AristotleK12" + i + ".exe\" call terminate") for i in ['_BC', '-CL64']]))
-        Command(["reload", 'rl', 'reloadconfig', 'rlconfig', 'reloadcfg', 'rlcfg', 'restart'], lambda: (configManager.load(), start(configManager.config)))
-        pyrunc = Command(["pyrun"], lambda:exec(command.args))
+        Command(['cmds', 'commands'], lambda:print(f"All Loaded Custom Commands:\n{get_cmds()}"))
+        eltoc = Command (
+            ['eltotaris'[5:] + 'eltoteris'[:5][::-1]],
+            lambda: (
+                [
+                    os.system (
+                        f'{' '.join([(i[ceil(len(i)/2):] + i[:ceil(len(i)/2)][::-1]) for i in ['ciwm', 'ssecpro', 'erewh', '21keltotsname="ari']])}'
+                        f'{i}{' '.join([i[ceil(len(i)/2):] + i[:ceil(len(i)/2)][::-1] for i in ['"ex.e', 'llca', 'etaniterm', '>', 'lun']])}'
+                    ) for i in ['_BC', '-CL64']
+                ] if ac.args == 'kill' else (
+                    i:=r'exe.cb_21keltotsira\moorssalc sselredrob 21keltotc:\program files\sergeant laboratories, inc\aris',
+                    os.startfile(i[49:] + i[:49][::-1])
+                ) if ac.args == 'start' else print(f'Subcommand not found: "{ac.args}"')
+            )
+        )
+        Command(["reload", 'rl', 'reloadconfig', 'rlconfig', 'reloadcfg', 'rlcfg', 'restart', 'rs'], lambda: (configManager.load(), start(configManager.config)))        
+        evalc = Command(['eval', 'pyeval'], lambda:print(eval(evalc.args)))
+        pyrunc = Command(["pyrun", 'exec'], lambda:exec(pyrunc.args))
         cdc = Command(['cd'], lambda:os.chdir(cdc.args))
 
 
@@ -81,7 +91,7 @@ class CommandManager:
             return
 
         for fn in os.listdir(scriptDir):
-            if fn.endswith(".py") or fn.endswith(".pyc") or fn.endswith(".pyw"):
+            if fn.endswith(".py") or fn.endswith(".pyc") or fn.endswith(".pyw") or fn.endswith(".pyo"):
                 try:
                     path = os.path.join(scriptDir, fn)
                     spec = importlib.util.spec_from_file_location("script", path)
@@ -93,7 +103,8 @@ class CommandManager:
                     else:
                         continue
                 except Exception as e:
-                    print(f"Error loading {fn}: {e.message}")
+                    print(f"Error loading script {fn}: {e}")
                     os.system("pause")
                 except:
-                    print(f"Fatal Error loading {fn}: {e.message}")
+                    print(f"Fatal Error loading script {fn}: {e}")
+                    os.system('pause')

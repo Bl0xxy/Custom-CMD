@@ -9,7 +9,7 @@ sys.path.append(os.getcwd())
 
 class ConfigManager:
     default_config: dict = {
-        "CTRL_C_EXIT": False, "STARTING_DIRECTORY": os.path.expanduser('~'), "START_MESSAGE": "Microsoft Windows [Version 10.0.19045.3570]\n(c) Microsoft Corporation. All rights reserved.\n", "PYTHON_INSTALL_PATH": "\""+sys.executable+"\"", "DEFAULT_COLOR": "07"
+        "CTRL_C_EXIT": False, "STARTING_DIRECTORY": os.path.expanduser('~'), "START_MESSAGE": "Microsoft Windows [Version 10.0.19045.3570]\n(c) Microsoft Corporation. All rights reserved.\n", "DEFAULT_COLOR": "07"
     }
     
     def __init__(self, fn) -> None:
@@ -19,7 +19,7 @@ class ConfigManager:
 
         self.load()
 
-    def load(self):
+    def load(self) -> None:
         if not os.path.exists(self.config_dir):
             os.makedirs(self.config_dir)
             return

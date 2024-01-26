@@ -1,5 +1,5 @@
 """
-CustomCMD dev-1.3
+CustomCMD dev-1.4
 A replacement to Command Prompt with a scripting API, configuration system, and more!
 """
 
@@ -12,11 +12,11 @@ def start(config: dict) -> None:
     os.chdir(config["STARTING_DIRECTORY"])
     print(config["START_MESSAGE"])
 
-from CustomCommands import CommandManager, exec_cmd, Command
 from ConfigManager import ConfigManager
+configManager = ConfigManager("config.json")
+from CustomCommands import *
 
 ### MAIN ###
-configManager = ConfigManager("config.json")
 scriptManager = CommandManager(os.path.join(os.getcwd(), "save", "scripts"), configManager.config)
 
 config = configManager.config
@@ -26,7 +26,7 @@ start(config)
 while True:
     try:
         values = input(f"{os.getcwd()}>").split(" ")
-        
+
         exec_cmd(values[0].lower(), values if len(values) > 1 else [])
 
     except Exception as e:

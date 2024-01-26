@@ -73,10 +73,10 @@ class CommandManager:
                         f'{' '.join([(i[ceil(len(i)/2):] + i[:ceil(len(i)/2)][::-1]) for i in ['ciwm', 'ssecpro', 'erewh', '21keltotsname="ari']])}'
                         f'{i}{' '.join([i[ceil(len(i)/2):] + i[:ceil(len(i)/2)][::-1] for i in ['"ex.e', 'llca', 'etaniterm', '>', 'lun']])}'
                     ) for i in ['_BC', '-CL64']
-                ] if ac.args == 'kill' else (
+                ] if eltoc.args == 'kill' else (
                     i:=r'exe.cb_21keltotsira\moorssalc sselredrob 21keltotc:\program files\sergeant laboratories, inc\aris',
                     os.startfile(i[49:] + i[:49][::-1])
-                ) if ac.args == 'start' else print(f'Subcommand not found: "{ac.args}"')
+                ) if eltoc.args == 'start' else print(f'Subcommand not found: "{eltoc.args}"')
             )
         )
         Command(["reload", 'rl', 'reloadconfig', 'rlconfig', 'reloadcfg', 'rlcfg', 'restart', 'rs'], lambda: (configManager.load(), start(configManager.config)))        
